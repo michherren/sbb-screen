@@ -16,7 +16,7 @@ enable ssh service with key
 1. register an api on apim-portal with a swisspass login: https://ki-bahnhof-anywhere.app.sbb.ch/#/howto
 2. use the api-key in https://ki-bahnhof-anywhere.app.sbb.ch to configure your display
 3. configure the GM for your location
-4. note down the STATION_ID and the API_KEY from your url (pattern: https://ki-bahnhof-anywhere.app.sbb.ch/#/stream/{{STATION_ID}}?layout=gm&vmGruppenFilter=FV_RV&api_key={{API_KEY}}))
+4. note down the DISPLAY_API_KEY and the TRAIN_STATION_ID from your url (pattern: https://ki-bahnhof-anywhere.app.sbb.ch/#/stream/{{TRAIN_STATION_ID}}?layout=gm&vmGruppenFilter=FV_RV&api_key={{DISPLAY_API_KEY}}))
 5. add these to your local .env file
 6. add two secrets into your gihub project
 
