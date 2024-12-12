@@ -1,0 +1,34 @@
+  on: [push]
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      name: Deploy to sbb-display
+      if: github.ref == 'refs/heads/main'
+      env:
+        MACHINE: sbb-screen
+      steps:
+        - name: Setup Go
+          id: go
+          uses: actions/setup-go@v2
+          with:
+            go-version: '^1.23'
+        - name: Tailscale
+          uses: tailscale/github-action@v2
+          with:
+            oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+            oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+            tags: tag:ci
+        - name: Fetch code
+          id: fetch
+          uses: actions/checkout@v1
+        - name: build and ship it
+          id: redeploy
+          env:
+            DISPLAY_API_KEY: ${{ secrets.DISPLAY_API_KEY }}
+            TRAIN_STATION_ID: ${{ secrets.TRAIN_STATION_ID }}
+          run: |
+            mkdir -p -m 0700 ~/.ssh
+            ssh-keyscan ${{ env.MACHINE }} >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
+            
+            ./redeploy.sh
